@@ -1,0 +1,177 @@
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family: "Segoe UI", Tahoma, sans-serif;
+}
+
+body{
+    min-height:100vh;
+    background: linear-gradient(270deg, #0f2027, #203a43, #2c5364);
+    background-size: 600% 600%;
+    animation: bgMove 15s ease infinite;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    color:white;
+}
+
+@keyframes bgMove {
+    0%{background-position:0% 50%}
+    50%{background-position:100% 50%}
+    100%{background-position:0% 50%}
+}
+
+.container{
+    width:90%;
+    max-width:900px;
+    background: rgba(255,255,255,0.1);
+    backdrop-filter: blur(12px);
+    padding:30px;
+    border-radius:20px;
+    box-shadow:0 20px 40px rgba(0,0,0,0.4);
+    animation: fadeIn 1s ease;
+    transform-origin: top center;
+}
+
+@keyframes fadeIn{
+    from{opacity:0; transform:translateY(30px) scale(0.95)}
+    to{opacity:1; transform:translateY(0) scale(1)}
+}
+
+h1{
+    text-align:center;
+    margin-bottom:10px;
+    letter-spacing:1px;
+    animation: fadeText 1.5s ease forwards;
+}
+
+@keyframes fadeText{
+    0%{opacity:0; transform:translateY(-20px)}
+    100%{opacity:1; transform:translateY(0)}
+}
+
+.mode{
+    text-align:center;
+    margin-bottom:25px;
+    font-size:18px;
+    animation: pulse 2s infinite;
+    text-shadow: 0 0 8px #00e5ff, 0 0 12px #00e5ff;
+}
+
+@keyframes pulse{
+    0%{opacity:0.6; transform:scale(0.95);}
+    50%{opacity:1; transform:scale(1.05);}
+    100%{opacity:0.6; transform:scale(0.95);}
+}
+
+.stats{
+    display:flex;
+    gap:20px;
+    margin-bottom:20px;
+    animation: fadeIn 1.5s ease;
+}
+
+.card{
+    flex:1;
+    padding:25px;
+    text-align:center;
+    border-radius:15px;
+    font-size:18px;
+    transition: transform 0.3s, box-shadow 0.3s, background 0.5s;
+    cursor: pointer;
+    position: relative;
+    overflow: hidden;
+}
+
+.card span{
+    display:block;
+    font-size:42px;
+    margin-top:10px;
+    font-weight:bold;
+    animation: countUp 1s ease;
+}
+
+.card:hover{
+    transform: translateY(-10px) scale(1.05);
+    box-shadow:0 20px 40px rgba(0,0,0,0.6);
+}
+
+.normal{
+    background: linear-gradient(135deg,#00c853,#64dd17);
+    animation: floatCard 3s ease-in-out infinite alternate;
+}
+
+.attack{
+    background: linear-gradient(135deg,#d50000,#ff1744);
+    animation: shake 0.4s ease-in-out infinite alternate;
+}
+
+@keyframes shake{
+    0%{transform:translateX(0) rotate(0deg)}
+    25%{transform:translateX(2px) rotate(1deg)}
+    50%{transform:translateX(-2px) rotate(-1deg)}
+    75%{transform:translateX(2px) rotate(1deg)}
+    100%{transform:translateX(0) rotate(0deg)}
+}
+
+@keyframes floatCard{
+    0%{transform: translateY(0);}
+    50%{transform: translateY(-5px);}
+    100%{transform: translateY(0);}
+}
+
+h2{
+    margin-bottom:10px;
+}
+
+.logs{
+    height:250px;
+    overflow-y:auto;
+    background: rgba(0,0,0,0.4);
+    padding:15px;
+    border-radius:12px;
+    font-size:14px;
+    animation: fadeIn 2s ease;
+}
+
+.logs div{
+    padding:8px 10px;
+    margin-bottom:6px;
+    border-radius:8px;
+    animation: slideIn 0.4s ease, glow 2s infinite alternate;
+}
+
+@keyframes slideIn{
+    from{opacity:0; transform:translateX(-20px)}
+    to{opacity:1; transform:translateX(0)}
+}
+
+@keyframes glow{
+    0%{box-shadow: 0 0 0px rgba(255,255,255,0);}
+    50%{box-shadow: 0 0 10px rgba(255,255,255,0.3);}
+    100%{box-shadow: 0 0 0px rgba(255,255,255,0);}
+}
+
+/* color log type */
+.logs div:nth-child(odd){
+    background: rgba(0,255,0,0.15);
+}
+.logs div:nth-child(even){
+    background: rgba(255,0,0,0.15);
+}
+
+/* scrollbar */
+.logs::-webkit-scrollbar{
+    width:6px;
+}
+.logs::-webkit-scrollbar-thumb{
+    background:#00e5ff;
+    border-radius:10px;
+}
+
+/* small count animation */
+@keyframes countUp{
+    0%{transform:scale(0); opacity:0}
+    100%{transform:scale(1); opacity:1}
+}

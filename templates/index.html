@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Network Intrusion Detection System</title>
+<link rel="stylesheet" href="/static/style.css">
+</head>
+
+<body>
+
+<div class="container">
+    <h1>🛡 Network Intrusion Detection System</h1>
+
+    <!-- CONTROL PANEL -->
+    <div class="controls">
+        <button onclick="toggleLive()" id="liveBtn">⏸ Pause Live</button>
+        <button onclick="clearLogs()">🧹 Clear Logs</button>
+        <button onclick="fakeAttack()">⚠ Simulate Attack</button>
+    </div>
+
+    <p class="mode">
+        Mode: <span id="mode">LIVE</span>
+    </p>
+
+    <div class="stats">
+        <div class="card normal" onclick="pulseCard(this)">
+            Normal Traffic
+            <span id="normal">0</span>
+        </div>
+
+        <div class="card attack" onclick="pulseCard(this)">
+            Attacks Detected
+            <span id="attack">0</span>
+        </div>
+    </div>
+
+    <h2>📡 Live Traffic Logs</h2>
+
+    <div class="logs" id="logs"></div>
+</div>
+
+<script>
+let live = true;
+let timer = null;
+
+function fetchData(){
+    if(!live) return;
+
+    fetch("/data")
+    .then(res => res.json())
+    .then(data => {
+        document.getElementById("normal").innerText = data.normal;
+        document.getElementById("attack").innerText = data.attack;
+        document.getElementById("mode").innerText = live ? "LIVE" : "PAUSED";
+
+        let logsDiv = document.getElementById("logs");
+
+        data.logs.slice(-5).forEach(log => {
+            let div = document.createElement("div");
+            div.innerText = log;
+
+            if(log.toLowerCase().includes("attack")){
+                div.classList.add("log-attack");
+                playAlert();
+            }else{
+                div.classList.add("log-normal");
+            }
+
+            logsDiv.prepend(div);
+        });
+    });
+}
+
+function toggleLive(){
+    live = !live;
+    document.getElementById("liveBtn").innerText = live ? "⏸ Pause Live" : "▶ Resume Live";
+}
+
+function clearLogs(){
+    document.getElementById("logs").innerHTML = "";
+}
+
+function fakeAttack(){
+    let div = document.createElement("div");
+    div.innerText = "⚠ Simulated Attack Detected from 192.168.1.99";
+    div.className = "log-attack";
+    document.getElementById("logs").prepend(div);
+
+    let a = document.getElementById("attack");
+    a.innerText = parseInt(a.innerText) + 1;
+    playAlert();
+}
+
+function playAlert(){
+    let beep = new Audio("https://actions.google.com/sounds/v1/alarms/beep_short.ogg");
+    beep.play();
+}
+
+function pulseCard(card){
+    card.classList.add("pulse");
+    setTimeout(()=>card.classList.remove("pulse"),300);
+}
+
+timer = setInterval(fetchData, 2000);
+</script>
+
+</body>
+</html>
